@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Color Game</title>
+<link href="css/index.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript">
+		//global variables
+		var color = ["red", "teal", "purple", "orange", "lime"];
+		var colorSort = color.sort();
+		var colorSortJoin = colorSort.join(", ");
+		var target;
+		var guess_input;
+		var count = 0;
+		var finished = false;
+
+		function do_game() {
+			var random_number = Math.random() * 5; //converts range to 0 - 4.9
+			var random_number_int = Math.floor(random_number); //dropping decimal. Range is now [0,4].
+			target = color[random_number_int]; //extracting and assigning color to target according to random number
+			console.log("colors sorted and joined: " + colorSortJoin); //for debug
+			console.log(target); //for debug
+
+			while (!finished) {
+				guess_input = prompt("I am thinking of one of these colors:\n\n" +
+					colorSortJoin +
+					"\n\nWhich color am I thinking of?");
+				count++
+				finished = check_guess();
+			};
+
+		};
+
+		function check_guess() {
+			if (color.indexOf(guess_input) === -1) {
+				alert("Please enter a color from the list.")
+				return false;
+			}
+			if (guess_input < target) {
+				alert("You guessed: " + guess_input + ". Your guess is alphabetically less than my color.");
+				return false;
+			}
+			if (guess_input > target) {
+				alert("You guessed: " + guess_input + ". Your guess is alphabetically greater than my color.")
+				return false;
+			}
+			document.body.style.backgroundColor = target;
+			alert("You guessed: " + guess_input + ". That is correct!\n\n" +
+				"It took you " + count + " guess(es).");
+			document.getElementById("addText").innerHTML = "good job! :)";
+			return true;
+		};
+	</script>
+
+	<style type="text/css">
+		div#addText {
+			font-size: 40px;
+			font-family: helvetica;
+		}
+	</style>
+
+</head>
+
+<body onload="do_game()">
+	<!-- this is a project for my Coursera.org full-stack class. This is the full game. 03/12/17 -->
+	<div id="addText"></div>
+</body>
+
+</html>
